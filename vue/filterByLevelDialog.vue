@@ -42,11 +42,10 @@ export default {
         bimObjectManagerService
           .getBimObjectsByPropertiesName(
             window.spinal.ForgeViewer.viewer.model,
-            "Level",
-            this.inputValue
+            [{ name: "Level", value: this.inputValue }]
           )
           .then(res => {
-            console.log(res);
+            // console.log(res);
 
             res = res.map(el => el.dbId);
             window.spinal.ForgeViewer.viewer.select(res);
