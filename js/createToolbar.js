@@ -46,6 +46,9 @@ export default function(params, listButton = []) {
 
       icon.innerHTML = params.icon;
 
+      if (typeof params.label !== "undefined")
+        comboButton.setToolTip(params.label);
+
       this.subToolbar = this.viewer.toolbar.getControl(
         params.subToolbarName
       );

@@ -2,6 +2,8 @@ export default function createButton(buttonName, buttonIcon, buttonAction) {
 
   let button = new window.Autodesk.Viewing.UI.Button(buttonName);
 
+  button.setToolTip(buttonName);
+
   button.onClick = () => {
     typeof buttonAction === "function" ? buttonAction() : console.log("");
   }
