@@ -10,6 +10,7 @@
 </template>
 
 <script>
+// import flags from "../../dialogs/flags";
 export default {
   name: "launchSearchComponent",
   props: {
@@ -57,11 +58,12 @@ export default {
 
             break;
           case "3":
-            if (argRegex && flag) {
-              regex = new RegExp(argRegex, flag.replace(",", ""));
-            } else if (argRegex && typeof flag === "undefined") {
-              regex = new RegExp(argRegex);
-            }
+            // if (argRegex && flag) {
+            //   regex = new RegExp(argRegex, flag);
+            // } else if (argRegex && typeof flag === "undefined") {
+            //   regex = new RegExp(argRegex);
+            // }
+            regex = new RegExp(argRegex, flag);
             break;
         }
       }

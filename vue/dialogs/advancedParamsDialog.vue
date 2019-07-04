@@ -38,7 +38,8 @@
 
               <md-menu>
                 <!-- md-menu-trigger -->
-                <md-button class="md-icon md-prefix">{{nameDelimiter}}</md-button>
+                <md-button class="md-icon md-prefix">{{nameDelimiter}}
+                </md-button>
 
                 <!-- <md-menu-content>
                   <md-menu-item v-for="(delimiter,index) in delimiters"
@@ -113,7 +114,8 @@
 
               <md-menu>
                 <!-- md-menu-trigger -->
-                <md-button class="md-icon md-prefix">{{valueDelimiter}}</md-button>
+                <md-button class="md-icon md-prefix">{{valueDelimiter}}
+                </md-button>
 
                 <!-- <md-menu-content>
                   <md-menu-item v-for="(delimiter,index) in delimiters"
@@ -228,6 +230,10 @@ export default {
         //   this.item.config.name.flag = this.nameFlag;
         // }
 
+        this.item.config.name.flag = this.nameFlag
+          ? this.nameFlag.join("")
+          : undefined;
+
         //Value
         this.item.config.value.option = this.valueConfig;
 
@@ -238,7 +244,9 @@ export default {
         //     this.valueDelimiter + this.valueRegex + this.valueDelimiter;
         // }
 
-        this.item.config.value.flag = this.valueFlag;
+        this.item.config.value.flag = this.valueFlag
+          ? this.valueFlag.join("")
+          : undefined;
         // this.resetAllValue(() => {
         //   this.callback(this.item);
         // });

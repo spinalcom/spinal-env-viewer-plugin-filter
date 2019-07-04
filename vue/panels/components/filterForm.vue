@@ -32,16 +32,26 @@
         <div class="md-layout-item md-small-size-100">
           <md-field class="_mdField">
             <label>Name</label>
+
             <md-input v-model="item.name"
-                      palceholder="Name"></md-input>
+                      palceholder="Name"
+                      :disabled="isDisabled(item,'name')"></md-input>
+
+            <span class="md-helper-text"
+                  v-if="isDisabled(item,'name')">Personalized</span>
           </md-field>
         </div>
 
         <div class="md-layout-item md-small-size-100">
           <md-field class="_mdField">
             <label>Value</label>
+
             <md-input v-model="item.value"
-                      palceholder="Value"></md-input>
+                      palceholder="Value"
+                      :disabled="isDisabled(item,'value')"></md-input>
+
+            <span class="md-helper-text"
+                  v-if="isDisabled(item,'value')">Personalized</span>
           </md-field>
         </div>
         <!-- <div class="md-layout-item md-size-10"></div> -->
@@ -107,6 +117,15 @@ export default {
 
     advanced(item) {
       this.$emit("config", item);
+    },
+    isDisabled(item, name) {
+      console.log("isDisabled");
+
+      let disabled = item.config[name].option == 3;
+
+      item[name] = disabled ? "" : item[name];
+
+      return disabled;
     }
   }
 };

@@ -137,13 +137,13 @@ export default {
     },
 
     filter(regex) {
-      this.loaded = true;
-
       let regExp = regex.filter(el => {
         return typeof el.nameRegex !== "undefined";
       });
 
       if (regExp.length > 0) {
+        this.loaded = true;
+
         bimObjectManagerService
           .getBimObjectsValidated(this.config.referential, regExp)
           .then(res => {
