@@ -44,9 +44,16 @@ export default {
   },
   data() {
     this.viewer = window.spinal.ForgeViewer.viewer;
-    this.allDbIds = this.viewer.getVisibleModels().map(el => {
-      return bimObjectManagerService.getLeafDbIds(el);
-    });
+    this.allDbIds = (() => {
+      try {
+        return this.viewer.getVisibleModels().map(el => {
+          return bimObjectManagerService.getLeafDbIds(el);
+        });
+      } catch (error) {
+        return bimObjectManagerService.getLeafDbIds(this.viewer.model);
+      }
+    })();
+
     return {};
   },
   //   watch: {
