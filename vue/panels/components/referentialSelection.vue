@@ -50,7 +50,7 @@ export default {
           return bimObjectManagerService.getLeafDbIds(el);
         });
       } catch (error) {
-        return bimObjectManagerService.getLeafDbIds(this.viewer.model);
+        return [bimObjectManagerService.getLeafDbIds(this.viewer.model)];
       }
     })();
 

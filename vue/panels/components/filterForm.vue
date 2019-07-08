@@ -119,8 +119,6 @@ export default {
       this.$emit("config", item);
     },
     isDisabled(item, name) {
-      console.log("isDisabled");
-
       let disabled = item.config[name].option == 3;
 
       item[name] = disabled ? "" : item[name];

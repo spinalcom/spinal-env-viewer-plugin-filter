@@ -154,9 +154,18 @@ export default {
               };
             });
 
-            window.spinal.ForgeViewer.viewer.impl.selector.setAggregateSelection(
-              res
-            );
+            try {
+              window.spinal.ForgeViewer.viewer.impl.selector.setAggregateSelection(
+                res
+              );
+            } catch (err) {
+              let ids = [];
+              res.forEach(el => {
+                ids = [...el.ids];
+              });
+
+              window.spinal.ForgeViewer.viewer.select(ids);
+            }
 
             this.loaded = false;
           });
