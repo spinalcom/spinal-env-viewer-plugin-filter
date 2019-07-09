@@ -2,160 +2,68 @@
 <template>
   <md-dialog :md-active.sync="showDialog"
              @md-closed="closeDialog(false)">
-    <md-dialog-title class="title">ADVANCED FILTER</md-dialog-title>
+    <md-dialog-title class="title">
+
+      <div>
+        ADVANCED FILTER
+      </div>
+
+      <md-menu>
+
+        <md-button class="md-icon-button"
+                   md-menu-trigger>
+          <md-icon>info</md-icon>
+        </md-button>
+
+        <info-component></info-component>
+      </md-menu>
+
+    </md-dialog-title>
 
     <md-dialog-content v-if="nameConfig && valueConfig"
                        class="_dialogContent md-layout">
 
+      <!--
+        ////////////////////////////////////////////////////////////////////////////
+        //                              Name                                      //
+        ////////////////////////////////////////////////////////////////////////////
+       -->
       <md-list class="_leftSide md-layout-item md-size-50">
         <md-subheader style="justify-content : center">Name</md-subheader>
 
-        <md-list-item>
-          <md-radio v-model="nameConfig"
-                    value="1"
-                    @change="changeName" />
-          <span class="md-list-item-text">Equals</span>
-        </md-list-item>
+        <choose-option @change="changeName"
+                       :choosed="nameConfig">
+        </choose-option>
 
-        <md-list-item>
-          <md-radio v-model="nameConfig"
-                    value="2"
-                    @change="changeName" />
-          <span class="md-list-item-text">Contains</span>
-        </md-list-item>
-
-        <md-list-item>
-          <md-radio v-model="nameConfig"
-                    value="3"
-                    @change="changeName" />
-          <span class="md-list-item-text">Others</span>
-        </md-list-item>
-
-        <!-- Name Regex Form -->
-        <md-list v-if="nameConfig === '3'">
-          <md-list-item>
-            <md-field class="_mdField">
-
-              <md-menu>
-                <!-- md-menu-trigger -->
-                <md-button class="md-icon md-prefix">{{nameDelimiter}}
-                </md-button>
-
-                <!-- <md-menu-content>
-                  <md-menu-item v-for="(delimiter,index) in delimiters"
-                                :key="index"
-                                @click="changeNameDelimiter(delimiter)">{{delimiter}}</md-menu-item>
-                </md-menu-content> -->
-
-              </md-menu>
-
-              <!-- <label>Regex</label> -->
-
-              <md-input v-model="nameRegex"
-                        palceholder="Regex"></md-input>
-
-              <span class="md-icon md-suffix">{{nameDelimiter}}</span>
-            </md-field>
-          </md-list-item>
-
-          <md-list-item>
-            <md-field class="_mdField">
-              <label>Flag</label>
-              <!-- <md-input v-model="nameFlag"
-                        palceholder="flag"></md-input> -->
-
-              <md-select v-model="nameFlag"
-                         name="flags"
-                         id="flags"
-                         md-dense
-                         multiple>
-
-                <md-option v-for="(flag,index) in flagsList"
-                           :key="index"
-                           :value="flag.value">{{flag.name}}</md-option>
-
-              </md-select>
-
-            </md-field>
-          </md-list-item>
-        </md-list>
-        <!-- End Name Regex Form -->
+        <advanced-option v-if="nameConfig === '3'"
+                         :regexValue="nameRegex"
+                         :flagsValue="nameFlag"
+                         :delimiterValue="nameDelimiter"
+                         @regex="changeNameRegex"
+                         @flags="changeNameFlag"
+                         @delimiter="changeNameDelimiter"></advanced-option>
 
       </md-list>
 
+      <!--
+        ////////////////////////////////////////////////////////////////////////////
+        //                              Value                                     //
+        ////////////////////////////////////////////////////////////////////////////
+       -->
       <md-list class="md-layout-item md-size-50">
         <md-subheader style="justify-content : center">Value</md-subheader>
 
-        <md-list-item>
-          <md-radio v-model="valueConfig"
-                    value="1"
-                    @change="changeValue" />
-          <span class="md-list-item-text">Equals</span>
-        </md-list-item>
+        <choose-option @change="changeValue"
+                       :choosed="valueConfig">
+        </choose-option>
 
-        <md-list-item>
-          <md-radio v-model="valueConfig"
-                    value="2"
-                    @change="changeValue" />
-          <span class="md-list-item-text">Contains</span>
-        </md-list-item>
-
-        <md-list-item>
-          <md-radio v-model="valueConfig"
-                    value="3"
-                    @change="changeValue" />
-          <span class="md-list-item-text">Others</span>
-        </md-list-item>
-
-        <!-- Value Regex Form -->
-        <md-list v-if="valueConfig === '3'">
-          <md-list-item>
-            <md-field class="_mdField">
-
-              <md-menu>
-                <!-- md-menu-trigger -->
-                <md-button class="md-icon md-prefix">{{valueDelimiter}}
-                </md-button>
-
-                <!-- <md-menu-content>
-                  <md-menu-item v-for="(delimiter,index) in delimiters"
-                                :key="index"
-                                @click="changeValueDelimiter(delimiter)">{{delimiter}}</md-menu-item>
-                </md-menu-content> -->
-
-              </md-menu>
-              <!-- <label>Regex</label> -->
-              <md-input v-model="valueRegex"
-                        palceholder="Regex"></md-input>
-
-              <span class="md-icon md-suffix">{{valueDelimiter}}</span>
-
-            </md-field>
-          </md-list-item>
-
-          <md-list-item>
-            <md-field class="_mdField">
-              <label>Flags</label>
-              <!-- <md-input v-model="valueFlag"
-                        palceholder="flag"></md-input> -->
-
-              <md-select v-model="valueFlag"
-                         name="flags"
-                         id="flags"
-                         md-dense
-                         multiple>
-
-                <md-option v-for="(flag,index) in flagsList"
-                           :key="index"
-                           :value="flag.value">{{flag.name}}</md-option>
-
-              </md-select>
-
-            </md-field>
-
-          </md-list-item>
-        </md-list>
-        <!-- End Value Regex Form -->
+        <advanced-option v-if="valueConfig === '3'"
+                         :regexValue="valueRegex"
+                         :flagsValue="valueFlag"
+                         :delimiterValue="valueDelimiter"
+                         @regex="changeValueRegex"
+                         @flags="changeValueFlag"
+                         @delimiter="changeValueDelimiter"></advanced-option>
 
       </md-list>
     </md-dialog-content>
@@ -172,16 +80,19 @@
 
 
 <script>
-import flagsList from "./flags.js";
-import delimiter from "./delimiter.js";
+import AdvancedOption from "./components/filterAdvancedOption.vue";
+import ChooseOption from "./components/chooseOption.vue";
+import InfoComponent from "./components/infoComponent.vue";
 
 export default {
   name: "AdvancedParamsDialog",
   props: ["onFinised"],
+  components: {
+    "advanced-option": AdvancedOption,
+    "choose-option": ChooseOption,
+    "info-component": InfoComponent
+  },
   data() {
-    this.flagsList = flagsList;
-    this.delimiters = delimiter;
-
     this.callback;
     this.item;
     return {
@@ -202,8 +113,6 @@ export default {
   },
   methods: {
     opened(option) {
-      // this.resetAllValue(() => {
-      // this.callback = option.callback;
       this.item = option.params;
 
       //Name
@@ -247,9 +156,6 @@ export default {
         this.item.config.value.flag = this.valueFlag
           ? this.valueFlag.join("")
           : undefined;
-        // this.resetAllValue(() => {
-        //   this.callback(this.item);
-        // });
       }
 
       this.showDialog = false;
@@ -259,38 +165,46 @@ export default {
         this.onFinised(closeResult);
       }
     },
-    changeName() {
+
+    ////////////////////////////////////////////////////////////////////////////
+    //                               Name                                     //
+    ////////////////////////////////////////////////////////////////////////////
+    changeName(value) {
+      this.nameConfig = value;
       if (this.nameConfig === "1" || this.nameConfig === "2") {
         this.nameRegex = undefined;
         this.nameFlag = undefined;
       }
     },
-    changeValue() {
+    changeNameRegex(value) {
+      this.nameRegex = value;
+    },
+    changeNameFlag(value) {
+      this.nameFlag = value;
+    },
+    changeNameDelimiter(value) {
+      this.nameDelimiter = value;
+    },
+
+    ////////////////////////////////////////////////////////////////////////////
+    //                               Value                                    //
+    ////////////////////////////////////////////////////////////////////////////
+
+    changeValue(value) {
+      this.valueConfig = value;
       if (this.valueConfig === "1" || this.valueConfig === "2") {
         this.valueRegex = undefined;
         this.valueFlag = undefined;
       }
     },
-    resetAllValue(callback) {
-      //Name
-      this.nameConfig = null;
-      this.nameRegex = null;
-      this.nameFlag = null;
-
-      //Value
-      this.valueConfig = null;
-      this.valueRegex = null;
-      this.valueFlag = null;
-
-      callback();
+    changeValueRegex(value) {
+      this.valueRegex = value;
     },
-
-    changeNameDelimiter(delimiter) {
-      this.nameDelimiter = delimiter;
+    changeValueFlag(value) {
+      this.valueFlag = value;
     },
-
-    changeValueDelimiter(delimiter) {
-      this.valueDelimiter = delimiter;
+    changeValueDelimiter(value) {
+      this.valueDelimiter = value;
     }
   }
 };
@@ -301,11 +215,16 @@ export default {
   width: 600px;
 }
 
+.title {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
 ._leftSide {
   border-right: 1px solid;
 }
 
-.title,
 .subTitle {
   text-align: center;
 }

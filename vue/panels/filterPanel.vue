@@ -32,7 +32,7 @@
 
     <div v-if="loaded"
          class="isLoaded">
-      loading...
+      <md-progress-spinner md-mode="indeterminate"></md-progress-spinner>
     </div>
 
   </div>
