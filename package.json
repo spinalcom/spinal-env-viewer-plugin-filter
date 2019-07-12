@@ -10,6 +10,7 @@
     "imgurify": "^2.0.1",
     "spinal-env-viewer-graph-service": "git+https://github.com/spinalcom/Spinal-Graph-Service.git",
     "spinal-env-viewer-plugin-bimobjectservice": "git+https://github.com/spinalcom/spinal-env-viewer-plugin-bimobjectservice.git",
+    "spinal-env-viewer-plugin-documentation-service": "git+https://github.com/spinalcom/spinal-env-viewer-plugin-documentation-service.git",
     "spinal-env-viewer-bim-manager-service": "https://github.com/spinalcom/spinal-env-viewer-bim-manager-service.git"
   },
   "keywords": [],

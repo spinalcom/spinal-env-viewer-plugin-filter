@@ -1,11 +1,28 @@
 
 <template>
   <div class="_container">
-    <md-button class="_btn md-dense md-primary"
-               @click="filter">
-      <md-icon>check</md-icon>
-      SEARCH
-    </md-button>
+
+    <div class="md-layout">
+      <div class="md-layout-item md-size-50">
+        <md-checkbox v-model="searchOnBim"
+                     class="md-primary">Search on Forge Attributes</md-checkbox>
+      </div>
+      <div class="md-layout-item md-size-50">
+        <md-checkbox v-model="searchOnSpinalAttributes"
+                     class="md-primary">Search on spinal Attributes
+        </md-checkbox>
+      </div>
+
+    </div>
+
+    <div class="launchBtn md-layout">
+      <md-button class="_btn md-layout-item md-size-100 md-dense md-primary"
+                 @click="filter">
+        <md-icon>check</md-icon>
+        SEARCH
+      </md-button>
+    </div>
+
   </div>
 </template>
 
@@ -20,7 +37,10 @@ export default {
     }
   },
   data() {
-    return {};
+    return {
+      searchOnBim: true,
+      searchOnSpinalAttributes: true
+    };
   },
   methods: {
     filter() {
@@ -41,7 +61,15 @@ export default {
         };
       });
 
-      this.$emit("filter", regex);
+      if (this.searchOnBim || this.searchOnSpinalAttributes) {
+        this.$emit("filter", {
+          regex: regex,
+          bimAttributes: this.searchOnBim,
+          spinalAttributes: this.searchOnSpinalAttributes
+        });
+      } else {
+        alert("Sorry, you must select at least one element !!");
+      }
     },
     getRegex(value, option, flag = undefined, argRegex = undefined) {
       let regex;
@@ -78,5 +106,9 @@ export default {
 ._container ._btn {
   padding-right: 10px;
   border: 1px solid #448aff;
+}
+
+._container .launchBtn {
+  margin-top: 30px;
 }
 </style>
