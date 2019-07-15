@@ -14,7 +14,9 @@ export default function(params, listButton = []) {
       } else {
         // Toolbar hasn't been created yet, wait until we get notification of its creation
         this.onToolbarCreatedBinded = this.onToolbarCreated.bind(this);
-        this.viewer.addEventListener(av.TOOLBAR_CREATED_EVENT, this
+        this.viewer.addEventListener(window.Autodesk.Viewing
+          .TOOLBAR_CREATED_EVENT,
+          this
           .onToolbarCreatedBinded);
       }
 
@@ -23,7 +25,8 @@ export default function(params, listButton = []) {
 
 
     onToolbarCreated() {
-      this.viewer.removeEventListener(av.TOOLBAR_CREATED_EVENT, this
+      this.viewer.removeEventListener(window.Autodesk.Viewing
+        .TOOLBAR_CREATED_EVENT, this
         .onToolbarCreatedBinded);
       this.onToolbarCreatedBinded = null;
       this.createUI();
