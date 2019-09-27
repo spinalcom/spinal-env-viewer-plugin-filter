@@ -78,11 +78,11 @@ export default {
         switch (option) {
           case "1":
             // regex = `/^${value.trim()}$/i`;
-            regex = new RegExp(`^${value.trim()}$`, "i");
+            regex = RegExp.escape(`^${value.trim()}$`, "i");
             break;
           case "2":
             // regex = `/${value.trim()}/i`;
-            regex = new RegExp(`${value.trim()}`, "i");
+            regex = RegExp.escape(`${value.trim()}`, "i");
 
             break;
           case "3":
