@@ -12,6 +12,13 @@
         <md-tooltip md-delay="300">Add selection to referential</md-tooltip>
       </md-button>
 
+      <!-- <md-button @click="addCategorySelected">
+        <md-icon>add</md-icon>
+        Add Category selected
+        <md-tooltip md-delay="300">Add Category selected to referential
+        </md-tooltip>
+      </md-button> -->
+
       <md-button @click="clearReferential">
         <md-icon>clear</md-icon>
         <md-tooltip md-delay="300">Clear referential</md-tooltip>
@@ -22,7 +29,9 @@
         <md-tooltip md-delay="300">Show referential</md-tooltip>
       </md-button>
 
-      <p>{{getObjectsSelectedLength()}} objects selected</p>
+      <div class="historySelected">
+        <p>{{getObjectsSelectedLength()}} objects selected</p>
+      </div>
     </div>
   </div>
 </template>
@@ -88,20 +97,29 @@ export default {
      * Adds the current selection to the referential. Discards all non-leaf dbIds.
      */
     addSelection() {
-      this.config.referential = [];
+      if (this.config.useAllDbIds) this.config.referential = [];
       const aggregateSelection = this.viewer.getAggregateSelection();
 
       for (let select of aggregateSelection) {
-        let leafs = bimObjectManagerService.getLeafDbIds(
-          select.model,
-          select.selection
+        // let leafs = bimObjectManagerService.getLeafDbIds(
+        //   select.model,
+        //   select.selection
+        // );
+
+        let found = this.config.referential.find(
+          el => el.model.id === select.model.id
         );
 
-        this.config.referential.push(leafs);
+        if (found) {
+          found.selection.push(...select.selection);
+        } else {
+          this.config.referential.push(select);
+        }
       }
       //   this.config.referential = [...new Set(this.config.referential)];
       //   this.$emit("configChanged");
     },
+
     /**
      * Empties the referential.
      */
@@ -129,3 +147,12 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.historySelected {
+  margin-top: 20px;
+  margin-left: 30px;
+  color: green;
+  font-size: 20px;
+}
+</style>

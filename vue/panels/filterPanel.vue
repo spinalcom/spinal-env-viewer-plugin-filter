@@ -125,17 +125,6 @@ export default {
     advanced(item) {
       spinalPanelManagerService.openPanel("advancedParamsDialog", {
         params: item
-        // callback: argParam => {
-        //   this.data.map(el => {
-        //     console.log(
-        //       el.id,
-        //       "name =>",
-        //       el.config.name,
-        //       "value =>",
-        //       el.config.value
-        //     );
-        //   });
-        // }
       });
     },
 
@@ -154,10 +143,17 @@ export default {
     },
 
     checkOnSpinalAttributes(activated, regExp) {
-      if (!activated) return Promise.resolve(this.config.referential);
+      let leaftBims = this.config.referential.map(select => {
+        return bimObjectManagerService.getLeafDbIds(
+          select.model,
+          select.selection
+        );
+      });
+
+      if (!activated) return Promise.resolve(leaftBims);
 
       let promises = utilities.getValidatedBimOnSpinalAttribut(
-        this.config.referential,
+        leaftBims,
         regExp
       );
 
@@ -197,16 +193,16 @@ export default {
       });
 
       if (regExp.length > 0) {
-        this.loaded = true;
-        // let bimValidated = this.config.referential.map(el => {
-        //   return {
-        //     model: el.model,
-        //     ids: []
-        //   };
-        // });
+        // this.loaded = true;
+        // // let bimValidated = this.config.referential.map(el => {
+        // //   return {
+        // //     model: el.model,
+        // //     ids: []
+        // //   };
+        // // });
 
-        this.checkOnSpinalAttributes(params.spinalAttributes, regExp).then(
-          values => {
+        this.checkOnSpinalAttributes(params.spinalAttributes, regExp)
+          .then(values => {
             let bimValidated = values.map(el => {
               return { model: el.model, ids: el.valid ? [...el.valid] : [] };
             });
@@ -215,24 +211,32 @@ export default {
               params.bimAttributes,
               bimValidated,
               regExp
-            ).then(res => {
-              try {
-                window.spinal.ForgeViewer.viewer.impl.selector.setAggregateSelection(
-                  res
-                );
-              } catch (err) {
-                let ids = [];
-                res.forEach(el => {
-                  ids = [...el.ids];
-                });
+            )
+              .then(res => {
+                try {
+                  window.spinal.ForgeViewer.viewer.impl.selector.setAggregateSelection(
+                    res
+                  );
+                } catch (err) {
+                  let ids = [];
+                  res.forEach(el => {
+                    ids = [...el.ids];
+                  });
 
-                window.spinal.ForgeViewer.viewer.select(ids);
-              }
+                  window.spinal.ForgeViewer.viewer.select(ids);
+                }
 
-              this.loaded = false;
-            });
-          }
-        );
+                // this.loaded = false;
+              })
+              .catch(err => {
+                console.error(err);
+                // this.loaded = false;
+              });
+          })
+          .catch(err => {
+            console.error(err);
+            // this.loaded = false;
+          });
 
         // this.loaded = true;
         /*

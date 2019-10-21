@@ -24,39 +24,37 @@
 
     </div>
 
-    <md-content class="content md-scrollbar">
+    <md-content class="_content md-scrollbar">
 
-      <div class="md-layout md-gutter"
+      <div class="_items"
            v-for="item in data"
            :key="item.id">
-        <div class="md-layout-item md-small-size-100">
-          <md-field class="_mdField">
-            <label>Name</label>
 
-            <md-input v-model="item.name"
-                      palceholder="Name"
-                      :disabled="isDisabled(item,'name')"></md-input>
+        <md-field class="_mdField">
+          <label>Name</label>
 
-            <span class="md-helper-text"
-                  v-if="isDisabled(item,'name')">Personalized</span>
-          </md-field>
-        </div>
+          <md-input v-model="item.name"
+                    palceholder="Name"
+                    :disabled="isDisabled(item,'name')"></md-input>
 
-        <div class="md-layout-item md-small-size-100">
-          <md-field class="_mdField">
-            <label>Value</label>
+          <span class="md-helper-text"
+                v-if="isDisabled(item,'name')">Personalized</span>
+        </md-field>
 
-            <md-input v-model="item.value"
-                      palceholder="Value"
-                      :disabled="isDisabled(item,'value')"></md-input>
+        <md-field class="_mdField">
+          <label>Value</label>
 
-            <span class="md-helper-text"
-                  v-if="isDisabled(item,'value')">Personalized</span>
-          </md-field>
-        </div>
+          <md-input v-model="item.value"
+                    palceholder="Value"
+                    :disabled="isDisabled(item,'value')"></md-input>
+
+          <span class="md-helper-text"
+                v-if="isDisabled(item,'value')">Personalized</span>
+        </md-field>
+
         <!-- <div class="md-layout-item md-size-10"></div> -->
 
-        <div class="md-layout-item md-small-size-100 iconButton">
+        <div class="_mdField iconButton">
 
           <md-button class="md-icon-button"
                      title="config"
@@ -148,23 +146,32 @@ export default {
   border: 1px solid #448aff;
 }
 
-._container .content {
-  width: calc(100% - 20px);
-  height: 160px; /* calc(90% - 15px); */
-  overflow: hidden;
+._container ._content {
+  width: calc(100%);
+  height: 150px; /* calc(90% - 15px); */
+  overflow: auto;
   padding-left: 10px;
   padding-right: 10px;
-  overflow-y: auto;
+  background-color: transparent;
+  /* overflow-y: auto; */
+}
+
+._container ._content ._items {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
 
 ._mdField {
-  min-height: 32px !important;
+  margin-right: 15px;
 }
 
 .iconButton {
   display: flex;
   flex-direction: row;
-  align-items: center;
+  justify-content: space-between;
+  /* align-items: center; */
 }
 
 ._icon {
