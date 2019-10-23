@@ -6,7 +6,7 @@
       Use whole digital twin
     </md-checkbox>
 
-    <div v-show="!config.useAllDbIds">
+    <div v-if="!config.useAllDbIds">
       <md-button @click="addSelection">
         <md-icon>add</md-icon>
         <md-tooltip md-delay="300">Add selection to referential</md-tooltip>
@@ -30,7 +30,8 @@
       </md-button>
 
       <div class="historySelected">
-        <p>{{getObjectsSelectedLength()}} objects selected</p>
+        <table-component :bimSelected="config.referential"></table-component>
+        <!--<p>{{getObjectsSelectedLength()}} objects selected</p>-->
       </div>
     </div>
   </div>
@@ -38,9 +39,13 @@
 
 <script>
 import { bimObjectManagerService } from "spinal-env-viewer-bim-manager-service";
+import TableComponent from "./tableComponent.vue";
 // import { getAllLeafDbIds, getLeafDbIds } from "../js/utilitiesDbIds";
 export default {
   name: "referentialSelection",
+  components: {
+    "table-component": TableComponent
+  },
   props: {
     // update: {
     //   type: String,
@@ -99,6 +104,7 @@ export default {
     addSelection() {
       if (this.config.useAllDbIds) this.config.referential = [];
       const aggregateSelection = this.viewer.getAggregateSelection();
+      let referentialCopy = Object.assign([], this.config.referential);
 
       for (let select of aggregateSelection) {
         // let leafs = bimObjectManagerService.getLeafDbIds(
@@ -106,16 +112,17 @@ export default {
         //   select.selection
         // );
 
-        let found = this.config.referential.find(
-          el => el.model.id === select.model.id
-        );
+        let found = referentialCopy.find(el => el.model.id === select.model.id);
 
         if (found) {
           found.selection.push(...select.selection);
         } else {
-          this.config.referential.push(select);
+          referentialCopy.push(select);
         }
       }
+
+      this.config.referential = referentialCopy;
+
       //   this.config.referential = [...new Set(this.config.referential)];
       //   this.$emit("configChanged");
     },
@@ -150,8 +157,9 @@ export default {
 
 <style scoped>
 .historySelected {
+  height: 150px;
   margin-top: 20px;
-  margin-left: 30px;
+  /* margin-left: 30px; */
   color: green;
   font-size: 20px;
 }
