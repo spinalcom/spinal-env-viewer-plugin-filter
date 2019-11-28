@@ -193,7 +193,7 @@ export default {
       });
 
       if (regExp.length > 0) {
-        // this.loaded = true;
+        this.loaded = true;
         // // let bimValidated = this.config.referential.map(el => {
         // //   return {
         // //     model: el.model,
@@ -226,16 +226,16 @@ export default {
                   window.spinal.ForgeViewer.viewer.select(ids);
                 }
 
-                // this.loaded = false;
+                this.loaded = false;
               })
               .catch(err => {
                 console.error(err);
-                // this.loaded = false;
+                this.loaded = false;
               });
           })
           .catch(err => {
             console.error(err);
-            // this.loaded = false;
+            this.loaded = false;
           });
 
         // this.loaded = true;
